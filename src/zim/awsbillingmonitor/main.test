@@ -1,0 +1,37 @@
+
+Get the entry point:
+
+    >>> import pkg_resources
+    >>> monitor = pkg_resources.load_entry_point(
+    ...     'zim.awsbillingmonitor', 'console_scripts', 'awsbillingmonitor')
+
+Let's call the monitor:
+
+    >>> monitor("test-region Total 100 1000".split())
+    Total 18
+    0
+
+    >>> monitor("test-region AmazonCloudFront 100 1000".split())
+    AmazonCloudFront 2
+    0
+
+Let's lower the warning thresholds to make them fire:
+
+    >>> monitor("test-region Total 1 1000".split())
+    Total 18 > 1.0
+    1
+
+    >>> monitor("test-region AmazonCloudFront 1 1000".split())
+    AmazonCloudFront 2 > 1.0
+    1
+
+And now, the error thresholds:
+
+    >>> monitor("test-region Total 1 10".split())
+    Total 18 > 10.0
+    2
+
+    >>> monitor("test-region AmazonCloudFront 1 1".split())
+    AmazonCloudFront 2 > 1.0
+    2
+
