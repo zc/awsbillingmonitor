@@ -1,0 +1,36 @@
+We want to deploy the monitor::
+
+  /awsbilling : awsbilling
+    region = 'us-east-1'
+    Total = 100, 1000
+    AmazonCloudFront = 10, 100
+
+.. -> tree
+
+    >>> import zc.zk
+    >>> zk = zc.zk.ZK('zookeeper:2181')
+    >>> zk.import_tree(tree)
+
+    >>> import pkg_resources
+    >>> recipe = pkg_resources.load_entry_point(
+    ...     'zim.awsbillingmonitor', 'zc.buildout', 'default')
+
+    >>> from zc.metarecipe.testing import Buildout
+    >>> _ = recipe(Buildout(), 'awsbilling.0', {})
+    [deployment]
+    name = awsbilling
+    recipe = zc.recipe.deployment
+    user = zope
+    [awsbilling.cfg]
+    deployment = deployment
+    directory = /etc/zim/agent.d
+    recipe = zc.recipe.deployment:configuration
+    text = [awsbilling-AmazonCloudFront]
+      class = zim.nagiosplugin.Monitor
+      /awsbilling/AmazonCloudFront = /opt/awsbilling/bin/awsbillingmonitor
+          us-east-1 AmazonCloudFront 10 100
+    <BLANKLINE>
+      [awsbilling-Total]
+      class = zim.nagiosplugin.Monitor
+      /awsbilling/Total = /opt/awsbilling/bin/awsbillingmonitor
+          us-east-1 Total 100 1000
