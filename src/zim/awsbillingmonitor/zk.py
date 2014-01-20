@@ -49,6 +49,7 @@ class Recipe(zc.metarecipe.Recipe):
 template = """
 [%(name)s]
 class = zim.nagiosplugin.Monitor
+interval = 3600
 /awsbilling/%(metric)s = /opt/awsbilling/bin/awsbillingmonitor
     %(region)s %(metric)s %(warn)s %(error)s
 """
