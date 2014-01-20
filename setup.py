@@ -13,12 +13,17 @@
 ##############################################################################
 name, version = 'zim.awsbillingmonitor', '0'
 
-install_requires = ['setuptools', 'boto']
-extras_require = dict(test=['mock', 'zope.testing'])
+install_requires = [
+    'setuptools', 'boto', 'zc.zk >= 2.0.0a4', 'zc.metarecipe',
+    'zc.recipe.deployment']
+extras_require = dict(test=['mock', 'zope.testing', 'manuel'])
 
 entry_points = """
 [console_scripts]
 awsbillingmonitor = zim.awsbillingmonitor:main
+
+[zc.buildout]
+default = zim.awsbillingmonitor.zk:Recipe
 """
 
 from setuptools import setup
