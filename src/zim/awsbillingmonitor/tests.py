@@ -16,8 +16,12 @@ from zope.testing import setupstack
 
 import datetime
 import doctest
+import manuel.capture
+import manuel.doctest
+import manuel.testing
 import mock
 import unittest
+import zc.zk.testing
 
 def assert_(cond, mess="Assertion Failed"):
     if not cond:
@@ -106,7 +110,15 @@ def setUp(test):
                    side_effect = Connection),
         )
 
+def zkSetUp(test):
+    zc.zk.testing.setUp(test, '', 'zookeeper:2181')
 
 def test_suite():
-    return doctest.DocFileSuite(
-        "main.test", setUp = setUp, tearDown = setupstack.tearDown)
+    return unittest.TestSuite((
+        doctest.DocFileSuite(
+            "main.test", setUp = setUp, tearDown = setupstack.tearDown),
+        manuel.testing.TestSuite(
+            manuel.doctest.Manuel() + manuel.capture.Manuel(),
+            'zk.test',
+            setUp=zkSetUp, tearDown=setupstack.tearDown),
+        ))
