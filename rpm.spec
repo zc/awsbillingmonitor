@@ -1,5 +1,5 @@
 Name: awsbillingmonitor
-Version: 0
+Version: 0.0.1
 Release: 1
 
 Summary: %{name}
