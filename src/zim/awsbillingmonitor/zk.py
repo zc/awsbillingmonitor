@@ -50,6 +50,6 @@ template = """
 [%(name)s]
 class = zim.nagiosplugin.Monitor
 interval = 3600
-/awsbilling/%(metric)s = /opt/awsbilling/bin/awsbillingmonitor
+/awsbilling/%(metric)s = /opt/awsbillingmonitor/bin/awsbillingmonitor
     %(region)s %(metric)s %(warn)s %(error)s
 """

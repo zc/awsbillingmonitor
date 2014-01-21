@@ -28,11 +28,11 @@ We want to deploy the monitor::
     text = [awsbilling-AmazonCloudFront]
       class = zim.nagiosplugin.Monitor
       interval = 3600
-      /awsbilling/AmazonCloudFront = /opt/awsbilling/bin/awsbillingmonitor
+      /awsbilling/AmazonCloudFront = /opt/awsbillingmonitor/bin/awsbillingmonitor
           us-east-1 AmazonCloudFront 10 100
     <BLANKLINE>
       [awsbilling-Total]
       class = zim.nagiosplugin.Monitor
       interval = 3600
-      /awsbilling/Total = /opt/awsbilling/bin/awsbillingmonitor
+      /awsbilling/Total = /opt/awsbillingmonitor/bin/awsbillingmonitor
           us-east-1 Total 100 1000
