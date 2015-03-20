@@ -1,0 +1,9 @@
+{
+    "build": [
+        "bootstrap27",
+        "cleanpython27"
+     ],
+     "run": [
+        "cleanpython27"
+     ]
+}

@@ -1,0 +1,12 @@
+#!/bin/sh -ex
+
+python=/opt/cleanpython27/bin/python
+
+/opt/bootstrap27/bin/buildout bootstrap
+
+bin/buildout -c rpm.cfg find-links+="$HOME/.buildout/eggs-directory
+    $HOME/.buildout/download-cache/dist"
+rsync --ignore-existing --recursive `pwd`/eggs/* $HOME/.buildout/eggs-directory/
+
+$python -m compileall -q -f `pwd`/eggs
+$python -m compileall -q -f `pwd`/src
