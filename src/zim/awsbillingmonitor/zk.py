@@ -25,31 +25,47 @@ class Recipe(zc.metarecipe.Recipe):
             user=zkoptions.get('user', 'zope'),
             )
 
-        text = ''
+        zim_text = ''
+        cimaa_text = ''
         for k, v in sorted(zkoptions.items()):
             if not re.match('[A-Z]', k):
                 continue
             assert len(v) == 2, ("bad option", k, v)
             warn, error = v
-            text += template % dict(
-                region = region,
-                name = name + '-' + k,
-                metric = k,
-                warn = warn,
-                error = error,
+            data = dict(
+                region=region,
+                name=(name + '-' + k),
+                metric=k,
+                warn=warn,
+                error=error,
                 )
+            zim_text += zim_template % data
+            cimaa_text += cimaa_template % data
+
+        self[name + '-zim.cfg'] = dict(
+            recipe = 'zc.recipe.deployment:configuration',
+            deployment = 'deployment',
+            text = zim_text,
+            directory = "/etc/zim/agent.d",
+            )
 
         self[name + '.cfg'] = dict(
             recipe = 'zc.recipe.deployment:configuration',
             deployment = 'deployment',
-            text = text,
-            directory = "/etc/zim/agent.d",
+            text = cimaa_text,
+            directory = "/etc/cimaa/monitors.d",
             )
 
-template = """
+zim_template = """
 [%(name)s]
 class = zim.nagiosplugin.Monitor
 interval = 3600
 /awsbilling/%(metric)s = /opt/awsbillingmonitor/bin/awsbillingmonitor
     %(region)s %(metric)s %(warn)s %(error)s
+"""
+
+cimaa_template = """
+[%(name)s]
+command = /opt/awsbillingmonitor/bin/awsbillingmonitor %(region)s %(metric)s %(warn)s %(error)s
+interval = 600
 """

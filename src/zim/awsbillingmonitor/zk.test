@@ -21,7 +21,7 @@ We want to deploy the monitor::
     name = awsbilling
     recipe = zc.recipe.deployment
     user = zope
-    [awsbilling.cfg]
+    [awsbilling-zim.cfg]
     deployment = deployment
     directory = /etc/zim/agent.d
     recipe = zc.recipe.deployment:configuration
@@ -36,3 +36,14 @@ We want to deploy the monitor::
       interval = 3600
       /awsbilling/Total = /opt/awsbillingmonitor/bin/awsbillingmonitor
           us-east-1 Total 100 1000
+    [awsbilling.cfg]
+    deployment = deployment
+    directory = /etc/cimaa/monitors.d
+    recipe = zc.recipe.deployment:configuration
+    text = [awsbilling-AmazonCloudFront]
+      command = /opt/awsbillingmonitor/bin/awsbillingmonitor us-east-1 AmazonCloudFront 10 100
+      interval = 600
+    <BLANKLINE>
+      [awsbilling-Total]
+      command = /opt/awsbillingmonitor/bin/awsbillingmonitor us-east-1 Total 100 1000
+      interval = 600

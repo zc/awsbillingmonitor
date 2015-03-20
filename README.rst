@@ -8,7 +8,14 @@ charges rather than incremental charges.
 Changes
 *******
 
-0.1.0 (yyyy-mm-dd)
+
+0.2.0 (2015-03-20)
+==================
+
+Add CIMAA configuration for the deployed monitor.
+
+
+0.1.0 (2014-01-21)
 ==================
 
 Initial release
